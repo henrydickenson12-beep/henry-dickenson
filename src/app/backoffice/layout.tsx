@@ -25,10 +25,10 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
         {/* Logo */}
         <div className="flex items-center gap-3 px-4 py-5" style={{ borderBottom: "1px solid #334155" }}>
           <div className="w-9 h-9 flex-shrink-0 rounded-xl flex items-center justify-center text-lg"
-            style={{ background: "linear-gradient(135deg, #6366F1, #7C3AED)" }}>📚</div>
+            style={{ background: "linear-gradient(135deg, #47A8BD, #1E3888)" }}>📚</div>
           {!collapsed && (
             <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-xl font-black text-white">
-              Teach<span style={{ color: "#6366F1" }}>More</span>
+              Teach<span style={{ color: "#47A8BD" }}>More</span>
             </motion.span>
           )}
         </div>
@@ -38,7 +38,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="px-4 py-4" style={{ borderBottom: "1px solid #334155" }}>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-black"
-                style={{ background: "linear-gradient(135deg, #6366F1, #7C3AED)", color: "white" }}>SJ</div>
+                style={{ background: "linear-gradient(135deg, #47A8BD, #1E3888)", color: "white" }}>SJ</div>
               <div>
                 <p className="font-bold text-white text-sm">Ms. Sarah Jensen</p>
                 <p className="text-xs" style={{ color: "#64748B" }}>Teacher · 2 Classes</p>
@@ -57,8 +57,8 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
                   className="flex items-center gap-3 px-3 py-3 rounded-xl transition-all cursor-pointer"
                   style={{
                     background: active ? "rgba(99,102,241,0.15)" : "transparent",
-                    color: active ? "#6366F1" : "#94A3B8",
-                    borderLeft: active ? "3px solid #6366F1" : "3px solid transparent",
+                    color: active ? "#47A8BD" : "#94A3B8",
+                    borderLeft: active ? "3px solid #47A8BD" : "3px solid transparent",
                   }}>
                   <span className="text-xl flex-shrink-0">{item.icon}</span>
                   {!collapsed && (
@@ -67,7 +67,7 @@ export default function BackofficeLayout({ children }: { children: React.ReactNo
                     </motion.span>
                   )}
                   {!collapsed && active && (
-                    <motion.div className="ml-auto w-2 h-2 rounded-full" style={{ background: "#6366F1" }}
+                    <motion.div className="ml-auto w-2 h-2 rounded-full" style={{ background: "#47A8BD" }}
                       layoutId="activeIndicator" />
                   )}
                 </motion.div>
