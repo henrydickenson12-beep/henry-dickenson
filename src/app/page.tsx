@@ -49,10 +49,10 @@ export default function LandingPage() {
           </span>
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="flex items-center gap-3">
-          <Link href="/backoffice" className="px-4 py-2 rounded-xl font-bold transition-all" style={{ color: "#7C3AED", fontWeight: 700 }}>
+          <Link href="/login" className="px-4 py-2 rounded-xl font-bold transition-all" style={{ color: "#7C3AED", fontWeight: 700 }}>
             Teacher Login
           </Link>
-          <Link href="/student"
+          <Link href="/login"
             className="px-5 py-2.5 rounded-xl text-white font-black text-sm transition-all hover:scale-105 hover:shadow-lg"
             style={{ background: "linear-gradient(135deg, #7C3AED, #6366F1)", fontWeight: 800 }}>
             Play &amp; Learn
@@ -99,7 +99,7 @@ export default function LandingPage() {
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
             className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/student"
+            <Link href="/login"
               className="px-8 py-4 rounded-2xl text-white font-black text-xl transition-all hover:scale-105 hover:shadow-2xl"
               style={{ background: "linear-gradient(135deg, #7C3AED, #6366F1)", fontWeight: 900 }}>
               🎮 Start Playing Now
