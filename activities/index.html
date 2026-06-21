@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Activity Library — TeachMore</title>
+  <meta name="description" content="A printable library of learning activities by subject, type, and age band." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">✎</span>
+        <div>
+          <h1>Activity Library</h1>
+          <p class="tagline">Pick a subject, type, and age — then print a worksheet set.</p>
+        </div>
+      </div>
+      <button id="printBtn" class="print-btn" type="button">Print these activities</button>
+    </div>
+  </header>
+
+  <section class="filter-bar" aria-label="Filter activities">
+    <div class="filter-group">
+      <span class="filter-label">Subject</span>
+      <div class="chips" id="subjectChips" role="group" aria-label="Filter by subject"></div>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Type</span>
+      <div class="chips" id="typeChips" role="group" aria-label="Filter by type"></div>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Age band</span>
+      <div class="chips" id="ageChips" role="group" aria-label="Filter by age band"></div>
+    </div>
+  </section>
+
+  <main class="content">
+    <p class="result-count" id="resultCount" aria-live="polite"></p>
+    <div class="grid" id="grid"></div>
+    <p class="empty-state" id="emptyState" hidden>No activities match these filters. Try “All”.</p>
+  </main>
+
+  <footer class="site-footer">
+    <p>TeachMore · 60 activities across History, Math, Literacy, Science &amp; Geography</p>
+  </footer>
+
+  <script src="activities.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

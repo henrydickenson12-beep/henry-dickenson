@@ -1,0 +1,242 @@
+:root {
+  --bg: #FFF9EF;
+  --surface: #FFFFFF;
+  --ink: #2D2A26;
+  --ink-soft: #6B6358;
+  --line: #ECE4D6;
+  --shadow: 0 6px 20px rgba(45, 42, 38, 0.08);
+
+  /* Subject accents */
+  --c-history: #C2410C;
+  --c-math: #2563EB;
+  --c-literacy: #7C3AED;
+  --c-science: #059669;
+  --c-geography: #0E7490;
+
+  /* Age-band accents */
+  --c-5-7: #DB2777;
+  --c-8-11: #D97706;
+  --c-12-14: #4F46E5;
+  --c-15-20: #475569;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Nunito", system-ui, -apple-system, sans-serif;
+  line-height: 1.55;
+}
+
+h1, h2, h3, .print-btn, .chip, .brand-mark {
+  font-family: "Fredoka", "Nunito", system-ui, sans-serif;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: 0.85rem; }
+.brand-mark {
+  width: 46px; height: 46px;
+  flex: 0 0 auto;
+  display: grid; place-items: center;
+  background: var(--c-literacy);
+  color: #fff;
+  border-radius: 14px;
+  font-size: 1.5rem;
+}
+h1 { margin: 0; font-size: 1.6rem; font-weight: 600; }
+.tagline { margin: 0.1rem 0 0; color: var(--ink-soft); font-size: 0.92rem; }
+
+.print-btn {
+  border: none;
+  background: var(--ink);
+  color: #fff;
+  padding: 0.7rem 1.2rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+.print-btn:hover { background: #1c1a17; transform: translateY(-1px); }
+.print-btn:active { transform: translateY(0); }
+
+/* ── Filter bar ─────────────────────────────────────────── */
+.filter-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 249, 239, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+  padding: 0.9rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.filter-group { display: flex; flex-direction: column; gap: 0.45rem; }
+.filter-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.chip {
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  white-space: nowrap;
+}
+.chip:hover { border-color: var(--chip-color, var(--ink-soft)); }
+.chip[aria-pressed="true"] {
+  background: var(--chip-color, var(--ink));
+  border-color: var(--chip-color, var(--ink));
+  color: #fff;
+}
+
+/* ── Content ────────────────────────────────────────────── */
+.content { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
+.result-count { color: var(--ink-soft); font-size: 0.9rem; font-weight: 600; margin: 0 0 1rem; }
+.empty-state { text-align: center; color: var(--ink-soft); padding: 3rem 1rem; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 1.1rem;
+}
+
+/* ── Card ───────────────────────────────────────────────── */
+.card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--subject-color, var(--ink));
+  border-radius: 16px;
+  padding: 1.15rem 1.2rem 1.2rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+.tag-type {
+  background: #F3EEE3;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+.card-title { margin: 0.1rem 0 0; font-size: 1.18rem; font-weight: 600; }
+.card-instr { margin: 0; color: #44403a; font-size: 0.96rem; }
+
+.vocab { margin-top: 0.2rem; }
+.reveal-btn {
+  border: 1.5px dashed var(--subject-color, var(--ink));
+  background: transparent;
+  color: var(--subject-color, var(--ink));
+  font-family: "Fredoka", sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.reveal-btn:hover { background: #faf4ea; }
+.vocab-answer {
+  display: inline-block;
+  background: var(--subject-color, var(--ink));
+  color: #fff;
+  font-weight: 700;
+  padding: 0.45rem 0.9rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+.vocab-answer::before { content: "Answer: "; font-weight: 600; opacity: 0.8; }
+
+.card-meta {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+.card-meta b { font-weight: 700; color: #57514a; }
+
+.site-footer {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem 2.5rem;
+}
+
+/* ── Mobile ─────────────────────────────────────────────── */
+@media (max-width: 560px) {
+  .header-inner { flex-direction: column; align-items: flex-start; }
+  .print-btn { width: 100%; }
+  .filter-bar { gap: 0.9rem 1.25rem; }
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* ── Print: clean worksheet output ──────────────────────── */
+@media print {
+  :root { --bg: #fff; }
+  body { background: #fff; }
+  .site-header, .filter-bar, .site-footer, .print-btn, .result-count { display: none !important; }
+  .content { padding: 0; max-width: none; }
+  .grid { display: block; }
+  .card {
+    box-shadow: none;
+    border: 1px solid #999;
+    border-left: 5px solid var(--subject-color, #333);
+    border-radius: 10px;
+    margin: 0 0 0.6cm;
+    padding: 0.5cm;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .reveal-btn { display: none; }            /* worksheet: hide the prompt button */
+  .vocab-answer { display: none; }          /* keep answers off printed worksheets */
+  .card.revealed .vocab-answer {            /* …unless the teacher revealed it on screen */
+    display: inline-block;
+    background: #fff;
+    color: #000;
+    border: 1px solid #999;
+  }
+  @page { margin: 1.4cm; }
+}

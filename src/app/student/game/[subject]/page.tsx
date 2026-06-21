@@ -11,8 +11,11 @@ import { GameQuestion } from "@/lib/types";
 
 const MatchGame = dynamic(() => import("@/components/games/MatchGame"), { ssr: false });
 const TrueFalseGame = dynamic(() => import("@/components/games/TrueFalseGame"), { ssr: false });
+const VocabularyActivity = dynamic(() => import("@/components/games/VocabularyActivity"), { ssr: false });
+const WrittenActivity = dynamic(() => import("@/components/games/WrittenActivity"), { ssr: false });
+const VisualActivity = dynamic(() => import("@/components/games/VisualActivity"), { ssr: false });
 
-type GameType = "pick" | "quiz" | "match" | "tf";
+type GameType = "pick" | "quiz" | "match" | "tf" | "vocab" | "written" | "visual";
 
 const confettiColors = ["#7C3AED", "#F59E0B", "#10B981", "#F43F5E", "#06B6D4"];
 
@@ -219,6 +222,9 @@ function GamePicker({ cfg, level, onPick }: {
 }) {
   const types = [
     { id: "quiz" as GameType, icon: "❓", label: "Quiz", desc: "Answer multiple-choice questions" },
+    { id: "vocab" as GameType, icon: "🔤", label: "Word Detective", desc: "Guess the word from its description" },
+    { id: "written" as GameType, icon: "✍️", label: "Writing Challenge", desc: "Read the prompt and write your answer" },
+    { id: "visual" as GameType, icon: "🎨", label: "Drawing Task", desc: "Draw and create on the canvas" },
     { id: "match" as GameType, icon: "🃏", label: "Memory Match", desc: "Flip cards to find matching pairs" },
     { id: "tf" as GameType, icon: "⚡", label: "True or False", desc: "Race against the clock — True or False?" },
   ];
@@ -316,6 +322,12 @@ function GamePageInner() {
           <MatchGame key={gameKey} subject={subject} level={level} color={cfg.color} bg={cfg.bg} onFinish={handleFinish} />
         ) : gameType === "tf" ? (
           <TrueFalseGame key={gameKey} subject={subject} level={level} color={cfg.color} bg={cfg.bg} onFinish={handleFinish} />
+        ) : gameType === "vocab" ? (
+          <VocabularyActivity key={gameKey} subject={subject} level={level} color={cfg.color} bg={cfg.bg} onFinish={handleFinish} />
+        ) : gameType === "written" ? (
+          <WrittenActivity key={gameKey} subject={subject} level={level} color={cfg.color} bg={cfg.bg} onFinish={handleFinish} />
+        ) : gameType === "visual" ? (
+          <VisualActivity key={gameKey} subject={subject} level={level} color={cfg.color} bg={cfg.bg} onFinish={handleFinish} />
         ) : null}
       </div>
     </div>

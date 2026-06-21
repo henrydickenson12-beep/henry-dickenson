@@ -358,6 +358,9 @@ function ChildDrawScreen({ child, siblingList, onSuccess, onBack }: {
   onBack: () => void;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  // Offscreen layer holding ONLY the child's strokes (no guide lines), used to
+  // export a clean black-on-white image the vision model can actually read.
+  const inkRef = useRef<HTMLCanvasElement | null>(null);
   const drawing = useRef(false);
   const lastPos = useRef<{ x: number; y: number } | null>(null);
   const [color, setColor] = useState(PALETTE[0]);
@@ -386,6 +389,12 @@ function ChildDrawScreen({ child, siblingList, onSuccess, onBack }: {
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
     drawGuideLines(ctx, canvas.width, canvas.height);
+
+    // Match the offscreen ink layer to the visible canvas size (clears it too).
+    const ink = inkRef.current ?? document.createElement("canvas");
+    ink.width = canvas.width;
+    ink.height = canvas.height;
+    inkRef.current = ink;
   }, [step, drawGuideLines]);
 
   function getPos(e: React.MouseEvent | React.TouchEvent, canvas: HTMLCanvasElement) {
@@ -414,8 +423,13 @@ function ChildDrawScreen({ child, siblingList, onSuccess, onBack }: {
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx || !lastPos.current) return;
     const pos = getPos(e, canvas);
-    ctx.strokeStyle = color; ctx.lineWidth = 12; ctx.lineCap = "round"; ctx.lineJoin = "round";
-    ctx.beginPath(); ctx.moveTo(lastPos.current.x, lastPos.current.y); ctx.lineTo(pos.x, pos.y); ctx.stroke();
+    const from = lastPos.current;
+    // Draw the same stroke to the visible canvas and the offscreen ink layer.
+    for (const c2 of [ctx, inkRef.current?.getContext("2d")]) {
+      if (!c2) continue;
+      c2.strokeStyle = color; c2.lineWidth = 12; c2.lineCap = "round"; c2.lineJoin = "round";
+      c2.beginPath(); c2.moveTo(from.x, from.y); c2.lineTo(pos.x, pos.y); c2.stroke();
+    }
     lastPos.current = pos;
   }
 
@@ -429,13 +443,25 @@ function ChildDrawScreen({ child, siblingList, onSuccess, onBack }: {
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
     drawGuideLines(ctx, canvas.width, canvas.height);
+    const ink = inkRef.current;
+    ink?.getContext("2d")?.clearRect(0, 0, ink.width, ink.height);
     setHasDrawn(false);
   }
 
   async function submitDrawing() {
-    const canvas = canvasRef.current;
-    if (!canvas) { setStep("confirm"); return; }
-    const base64 = canvas.toDataURL("image/png");
+    const ink = inkRef.current;
+    if (!ink) { setStep("confirm"); return; }
+    // Flatten the strokes onto a solid white background so the handwriting reads
+    // as clean black-on-white (transparent PNGs and guide lines confuse the model).
+    const out = document.createElement("canvas");
+    out.width = ink.width;
+    out.height = ink.height;
+    const octx = out.getContext("2d");
+    if (!octx) { setStep("confirm"); return; }
+    octx.fillStyle = "#FFFFFF";
+    octx.fillRect(0, 0, out.width, out.height);
+    octx.drawImage(ink, 0, 0);
+    const base64 = out.toDataURL("image/png");
     setStep("recognize");
     try {
       const res = await fetch("/api/recognize-name", {

@@ -1,7 +1,7 @@
 export interface SavedScore {
   id: string;
   subject: string;
-  gameType: "quiz" | "match" | "tf";
+  gameType: "quiz" | "match" | "tf" | "vocab" | "written" | "visual";
   score: number;
   total: number;
   pct: number;
@@ -44,4 +44,5 @@ export const subjectIcons: Record<string, string> = {
 
 export const gameTypeLabel: Record<string, string> = {
   quiz: "Quiz", match: "Memory Match", tf: "True/False",
+  vocab: "Word Detective", written: "Writing", visual: "Drawing",
 };
