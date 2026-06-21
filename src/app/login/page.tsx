@@ -3,37 +3,11 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { Child, ParentUser, findParent, PARENT_HANDOFF_KEY } from "@/lib/parents";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type Mode = "pick" | "parent-login" | "child-pick" | "child-draw" | "child-pin";
 type OwlState = "idle" | "watching" | "hidden" | "peeking" | "success" | "error";
-
-interface Child { id: string; name: string; avatar: string; age: number; }
-interface ParentUser { id: string; name: string; email: string; children: Child[]; }
-
-// ─── Mock parent accounts ─────────────────────────────────────────────────────
-const PARENT_ACCOUNTS: ParentUser[] = [
-  {
-    id: "p1", name: "Sarah Johnson", email: "sarah@teachmore.io",
-    children: [
-      { id: "s1", name: "Oliver", avatar: "🦊", age: 10 },
-      { id: "s6", name: "Maja", avatar: "🐱", age: 6 },
-    ],
-  },
-  {
-    id: "p2", name: "Emma Chen", email: "emma@teachmore.io",
-    children: [
-      { id: "s2", name: "Lila", avatar: "🦋", age: 13 },
-      { id: "s3", name: "Noah", avatar: "🐢", age: 11 },
-    ],
-  },
-];
-
-// Demo: any valid email + 4+ char password logs in as Sarah
-function findParent(email: string, _pass: string): ParentUser | null {
-  if (!email.includes("@") || _pass.length < 4) return null;
-  return PARENT_ACCOUNTS.find((p) => p.email.toLowerCase() === email.toLowerCase()) ?? PARENT_ACCOUNTS[0];
-}
 
 // ─── Owl SVG ──────────────────────────────────────────────────────────────────
 const L_EYE = { cx: 72, cy: 90 };
@@ -248,7 +222,7 @@ function ParentLoginScreen({ onSuccess, onBack }: { onSuccess: (p: ParentUser) =
         </AnimatePresence>
       </div>
 
-      <div className="p-8 rounded-3xl" style={{ background: "white", boxShadow: "0 8px 40px rgba(30,56,136,0.10)" }}>
+      <div className="p-8 rounded-2xl" style={{ background: "white", boxShadow: "0 1px 2px rgba(20,30,50,0.04), 0 10px 30px rgba(20,30,50,0.06)" }}>
         <h2 className="text-2xl font-black text-center mb-6" style={{ color: "#000" }}>Parent / Teacher Login</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -257,7 +231,7 @@ function ParentLoginScreen({ onSuccess, onBack }: { onSuccess: (p: ParentUser) =
               onFocus={() => setFocus("email")} onBlur={() => setFocus(null)}
               placeholder="sarah@teachmore.io"
               className="w-full px-4 py-3.5 rounded-2xl text-sm font-semibold outline-none transition-all"
-              style={{ background: "#F5F8FF", border: `2px solid ${focus === "email" ? "#1E3888" : "#E2E8F0"}`, color: "#000" }}
+              style={{ background: "#FFF9EF", border: `2px solid ${focus === "email" ? "#1E3888" : "#E2E8F0"}`, color: "#000" }}
               autoComplete="email" />
           </div>
 
@@ -268,7 +242,7 @@ function ParentLoginScreen({ onSuccess, onBack }: { onSuccess: (p: ParentUser) =
                 onFocus={() => setFocus("password")} onBlur={() => setFocus(null)}
                 placeholder="••••••••"
                 className="w-full px-4 py-3.5 pr-14 rounded-2xl text-sm font-semibold outline-none transition-all"
-                style={{ background: "#F5F8FF", border: `2px solid ${focus === "password" ? "#1E3888" : "#E2E8F0"}`, color: "#000" }}
+                style={{ background: "#FFF9EF", border: `2px solid ${focus === "password" ? "#1E3888" : "#E2E8F0"}`, color: "#000" }}
                 autoComplete="current-password" />
               <button type="button" onMouseDown={(e) => e.preventDefault()}
                 onClick={() => setShowPw(!showPw)}
@@ -290,7 +264,7 @@ function ParentLoginScreen({ onSuccess, onBack }: { onSuccess: (p: ParentUser) =
           <motion.button type="submit" disabled={loading || owlState === "success"}
             whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
             className="w-full py-4 rounded-2xl text-white font-black text-lg transition-all"
-            style={{ background: "linear-gradient(135deg, #1E3888, #47A8BD)", opacity: loading ? 0.8 : 1 }}>
+            style={{ background: "#14A4B4", opacity: loading ? 0.8 : 1 }}>
             {loading ? (
               <span className="flex items-center justify-center gap-2">
                 <motion.span animate={{ rotate: 360 }} transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}>⚙️</motion.span>
@@ -347,7 +321,7 @@ function ChildPickScreen({ parent, onPick, onBack }: {
             initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}
             whileHover={{ scale: 1.03, x: 6 }} whileTap={{ scale: 0.97 }}
             onClick={() => onPick(child)}
-            className="w-full p-6 rounded-3xl text-left flex items-center gap-5 transition-all"
+            className="w-full p-6 rounded-2xl text-left flex items-center gap-5 transition-all"
             style={{ background: "white", border: "2px solid #E8EEF9", boxShadow: "0 4px 20px rgba(30,56,136,0.08)" }}>
             <span className="text-5xl">{child.avatar}</span>
             <div>
@@ -499,7 +473,7 @@ function ChildDrawScreen({ child, siblingList, onSuccess, onBack }: {
     return (
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-sm mx-auto">
-        <div className="p-8 rounded-3xl text-center" style={{ background: "white", boxShadow: "0 8px 40px rgba(30,56,136,0.10)" }}>
+        <div className="p-8 rounded-2xl text-center" style={{ background: "white", boxShadow: "0 1px 2px rgba(20,30,50,0.04), 0 10px 30px rgba(20,30,50,0.06)" }}>
           {recognized && recognized.id === child.id ? (
             <>
               <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 300 }}
@@ -510,7 +484,7 @@ function ChildDrawScreen({ child, siblingList, onSuccess, onBack }: {
                 <motion.button whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.95 }}
                   onClick={onSuccess}
                   className="flex-1 py-4 rounded-2xl font-black text-xl text-white"
-                  style={{ background: "linear-gradient(135deg, #1E3888, #47A8BD)" }}>
+                  style={{ background: "#14A4B4" }}>
                   Yes, that&apos;s me! 🎉
                 </motion.button>
                 <motion.button whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.95 }}
@@ -531,7 +505,7 @@ function ChildDrawScreen({ child, siblingList, onSuccess, onBack }: {
                   <motion.button key={s.id} whileHover={{ scale: 1.03, x: 4 }} whileTap={{ scale: 0.97 }}
                     onClick={onSuccess}
                     className="w-full flex items-center gap-3 p-3 rounded-2xl font-bold text-left"
-                    style={{ background: "#F5F8FF", color: "#000", border: "2px solid #E8EEF9" }}>
+                    style={{ background: "#FFF9EF", color: "#000", border: "2px solid #E8EEF9" }}>
                     <span className="text-3xl">{s.avatar}</span>
                     <span className="text-lg">{s.name}</span>
                   </motion.button>
@@ -556,7 +530,7 @@ function ChildDrawScreen({ child, siblingList, onSuccess, onBack }: {
       <button onClick={onBack} className="flex items-center gap-2 font-black mb-4 hover:opacity-70 transition-opacity"
         style={{ color: "#1E3888", fontSize: "1.1rem" }}>← Back</button>
 
-      <div className="p-6 rounded-3xl" style={{ background: "white", boxShadow: "0 8px 40px rgba(30,56,136,0.10)" }}>
+      <div className="p-6 rounded-2xl" style={{ background: "white", boxShadow: "0 1px 2px rgba(20,30,50,0.04), 0 10px 30px rgba(20,30,50,0.06)" }}>
         <div className="flex items-center gap-3 mb-5">
           <span className="text-5xl">{child.avatar}</span>
           <div>
@@ -566,7 +540,7 @@ function ChildDrawScreen({ child, siblingList, onSuccess, onBack }: {
         </div>
 
         <div className="relative rounded-2xl overflow-hidden mb-4"
-          style={{ background: "#F5F8FF", border: "3px solid #E8EEF9", touchAction: "none", height: 180 }}>
+          style={{ background: "#FFF9EF", border: "3px solid #E8EEF9", touchAction: "none", height: 180 }}>
           <canvas ref={canvasRef} className="w-full h-full cursor-crosshair block"
             onMouseDown={startDraw} onMouseMove={draw} onMouseUp={stopDraw} onMouseLeave={stopDraw}
             onTouchStart={startDraw} onTouchMove={draw} onTouchEnd={stopDraw} />
@@ -597,7 +571,7 @@ function ChildDrawScreen({ child, siblingList, onSuccess, onBack }: {
           whileHover={hasDrawn ? { scale: 1.03 } : {}} whileTap={hasDrawn ? { scale: 0.97 } : {}}
           onClick={submitDrawing}
           className="w-full py-4 rounded-2xl font-black text-xl text-white transition-all"
-          style={{ background: hasDrawn ? "linear-gradient(135deg, #1E3888, #47A8BD)" : "#E2E8F0", color: hasDrawn ? "white" : "#94A3B8" }}>
+          style={{ background: hasDrawn ? "#1E3888" : "#E2E8F0", color: hasDrawn ? "white" : "#94A3B8" }}>
           {hasDrawn ? "I'm done! →" : "Draw your name first!"}
         </motion.button>
       </div>
@@ -636,7 +610,7 @@ function ChildPinScreen({ child, onSuccess, onBack }: {
       <button onClick={onBack} className="flex items-center gap-2 font-black mb-6 hover:opacity-70 transition-opacity"
         style={{ color: "#1E3888", fontSize: "1.1rem" }}>← Back</button>
 
-      <div className="p-8 rounded-3xl" style={{ background: "white", boxShadow: "0 8px 40px rgba(30,56,136,0.10)" }}>
+      <div className="p-8 rounded-2xl" style={{ background: "white", boxShadow: "0 1px 2px rgba(20,30,50,0.04), 0 10px 30px rgba(20,30,50,0.06)" }}>
         <div className="text-center mb-6">
           <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 300 }}
             className="text-7xl mb-3">{child.avatar}</motion.div>
@@ -666,7 +640,7 @@ function ChildPinScreen({ child, onSuccess, onBack }: {
                 disabled={!n}
                 className="aspect-square rounded-2xl font-black text-2xl flex items-center justify-center transition-all"
                 style={{
-                  background: n === "⌫" ? "#FCEEF0" : n ? "#F5F8FF" : "transparent",
+                  background: n === "⌫" ? "#FCEEF0" : n ? "#FFF9EF" : "transparent",
                   color: n === "⌫" ? "#9C3848" : "#000",
                   opacity: n ? 1 : 0,
                 }}>
@@ -698,7 +672,7 @@ function ModePicker({ onPick }: { onPick: () => void }) {
 
       <motion.button whileHover={{ scale: 1.04, y: -3 }} whileTap={{ scale: 0.97 }}
         onClick={onPick}
-        className="w-full p-7 rounded-3xl text-left flex items-center gap-5 transition-all"
+        className="w-full p-7 rounded-2xl text-left flex items-center gap-5 transition-all"
         style={{ background: "white", boxShadow: "0 8px 32px rgba(30,56,136,0.12)", border: "2px solid #E8EEF9" }}>
         <span className="text-5xl">👨‍👩‍👧</span>
         <div>
@@ -708,7 +682,7 @@ function ModePicker({ onPick }: { onPick: () => void }) {
         <span className="ml-auto text-2xl" style={{ color: "#1E3888" }}>→</span>
       </motion.button>
 
-      <div className="mt-6 p-5 rounded-2xl" style={{ background: "#F5F8FF", border: "2px dashed #B8CCE8" }}>
+      <div className="mt-6 p-5 rounded-2xl" style={{ background: "#FFF9EF", border: "2px dashed #B8CCE8" }}>
         <p className="text-sm font-bold" style={{ color: "#1E3888" }}>
           🧒 Students — ask your parent or teacher to log in first,<br />then you can pick yourself to play!
         </p>
@@ -727,6 +701,21 @@ export default function LoginPage() {
   const [parent, setParent] = useState<ParentUser | null>(null);
   const [child, setChild] = useState<Child | null>(null);
 
+  // If the parent already logged in on the landing hero, jump straight to picking
+  // a child instead of asking them to log in again.
+  useEffect(() => {
+    const raw = sessionStorage.getItem(PARENT_HANDOFF_KEY);
+    if (!raw) return;
+    sessionStorage.removeItem(PARENT_HANDOFF_KEY);
+    try {
+      const p = JSON.parse(raw) as ParentUser;
+      setParent(p);
+      setMode("child-pick");
+    } catch {
+      /* ignore malformed handoff */
+    }
+  }, []);
+
   function handleParentSuccess(p: ParentUser) {
     setParent(p);
     setMode("child-pick");
@@ -743,26 +732,13 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-dvh flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden"
-      style={{ fontFamily: "var(--font-nunito), sans-serif", background: "#F5F8FF" }}>
+      style={{ fontFamily: "var(--font-nunito), sans-serif", background: "#FFF9EF" }}>
 
-      {/* Background blobs */}
-      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
-        <motion.div className="absolute w-96 h-96 rounded-full opacity-10"
-          style={{ background: "radial-gradient(circle, #1E3888, transparent)", top: "-10%", right: "-5%" }}
-          animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} />
-        <motion.div className="absolute w-80 h-80 rounded-full opacity-10"
-          style={{ background: "radial-gradient(circle, #47A8BD, transparent)", bottom: "-5%", left: "-5%" }}
-          animate={{ scale: [1, 1.15, 1] }} transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }} />
-        <motion.div className="absolute w-64 h-64 rounded-full opacity-10"
-          style={{ background: "radial-gradient(circle, #FFAD69, transparent)", top: "40%", left: "-8%" }}
-          animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 4 }} />
-      </div>
-
-      <div className="relative z-10 w-full max-w-lg">
+<div className="relative z-10 w-full max-w-lg">
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
           className="flex items-center justify-center gap-2 mb-10">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-            style={{ background: "linear-gradient(135deg, #1E3888, #47A8BD)" }}>📚</div>
+            style={{ background: "#14A4B4" }}>📚</div>
           <span className="text-3xl font-black" style={{ color: "#000" }}>
             Teach<span style={{ color: "#1E3888" }}>More</span>
           </span>

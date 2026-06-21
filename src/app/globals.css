@@ -24,6 +24,20 @@
   --bo-navy:    #1E3888;
   --bo-text:    #F8FAFC;
   --bo-muted:   #94A3B8;
+
+  /* Marketing / parent-facing theme (warm, rounded, friendly — Albert vibe) */
+  --paper:     #FFF9EF;  /* warm cream background */
+  --surface:   #FFFFFF;
+  --ink:       #2D2A26;  /* warm near-black for headings/body */
+  --ink-soft:  #6B6358;  /* warm gray secondary text */
+  --teal:      #14A4B4;  /* primary brand accent */
+  --teal-deep: #0E808D;
+  --yellow:    #FFC23D;  /* sunny highlight */
+  --green:     #43B082;  /* success / free */
+  --coral:     #FF7A5C;  /* warm pop, used sparingly */
+  --sky:       #E4F4F6;  /* pale teal section */
+  --butter:    #FFF1D2;  /* pale yellow section */
+  --mint:      #E7F5EC;  /* pale green section */
 }
 
 @theme inline {

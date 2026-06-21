@@ -56,7 +56,7 @@ export default function BackofficeDashboard() {
           { label: "Total Students", value: totalStudents, icon: "👥", color: "#6366F1", sub: "across 2 classrooms" },
           { label: "Games This Week", value: totalGamesThisWeek, icon: "🎮", color: "#10B981", sub: "+3 since yesterday" },
           { label: "Average Score", value: `${avgScore}%`, icon: "📊", color: "#F59E0B", sub: "across all subjects" },
-          { label: "AI Suggestions", value: "3", icon: "🤖", color: "#F43F5E", sub: "pending review" },
+          { label: "Insights", value: "3", icon: "💡", color: "#F43F5E", sub: "pending review" },
         ].map((kpi, i) => (
           <motion.div key={kpi.label} custom={i} initial="hidden" animate="visible" variants={fadeUp}
             className="p-5 rounded-2xl" style={{ background: "#1E293B", border: "1px solid #334155" }}>

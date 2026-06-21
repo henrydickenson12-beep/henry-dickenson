@@ -154,11 +154,11 @@ export default function StudentsPage() {
                 </div>
               </div>
 
-              {/* AI Suggestions */}
+              {/* Insights */}
               {suggestions.length > 0 && (
                 <div className="p-6 rounded-2xl mb-6" style={{ background: "#1E293B", border: "1px solid #334155" }}>
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="font-bold text-white">🤖 AI Suggestions</h2>
+                    <h2 className="font-bold text-white">💡 Insights</h2>
                     <Link href="/backoffice/suggestions" className="text-sm font-semibold hover:underline" style={{ color: "#6366F1" }}>View all →</Link>
                   </div>
                   <div className="grid sm:grid-cols-3 gap-4">

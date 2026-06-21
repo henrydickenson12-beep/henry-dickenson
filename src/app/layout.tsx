@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Nunito, Inter } from "next/font/google";
+import { Nunito, Inter, Fredoka } from "next/font/google";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -16,14 +16,23 @@ const inter = Inter({
   display: "swap",
 });
 
+// Rounded, friendly display sans for marketing/parent-facing surfaces — warm and
+// characterful (Albert / hejalbert.se vibe), not corporate.
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "TeachMore — Learn. Play. Grow.",
-  description: "A fun, interactive learning platform for children ages 5–20. Games, quizzes, and smart insights for teachers and parents.",
+  description: "Playful maths, literacy and science for children ages 5–20, with a clear progress dashboard for parents and teachers. Free for eligible families.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${nunito.variable} ${inter.variable} h-full`}>
+    <html lang="en" className={`${nunito.variable} ${inter.variable} ${fredoka.variable} h-full`}>
       <body className="min-h-full">{children}</body>
     </html>
   );

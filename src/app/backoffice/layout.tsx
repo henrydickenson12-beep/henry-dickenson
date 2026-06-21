@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 const navItems = [
   { href: "/backoffice", label: "Overview", icon: "📊" },
   { href: "/backoffice/students", label: "Students", icon: "👥" },
-  { href: "/backoffice/suggestions", label: "AI Suggestions", icon: "🤖" },
+  { href: "/backoffice/suggestions", label: "Insights", icon: "💡" },
   { href: "/admin", label: "Admin", icon: "⚙️" },
 ];
 
